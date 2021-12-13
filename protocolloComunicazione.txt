@@ -1,5 +1,5 @@
 Finestra iniziale scelta difficoltà, una volta premuto il bottone richiede di inserire il destinatario con il quale si vuole giocare. 
-	C;nickname
+	C;nickname;tempoTotale;nTentativi
 Inserisco l’IP del destinatario che dovrà accettare o rifiutare. In caso affermativo verrà mandato anche il nickname dell’altro partecipante.
 	Y;nickname
 	N;
@@ -7,21 +7,22 @@ Una volta stabilita la connessione verrà generata in modo casuale la scelta del
 	D;messaggio
 Una volta fatta la domanda non sarà più permesso all’utente di mandare altri messaggi fino all’inizio del turno successivo.
 Il destinatario potrà rispondere alla domanda solo con un si o un no. Tramite un messaggio di risposta
-	M;Y
-	M;N
-Fino a quando non arriva una risposta il mittente non può passare il turno.
-Una volta passato il turno il mittente manderà al destinatario il permesso ad utilizzare il suo turno più una serie di stringhe con le coordinate dei personaggi eliminati dall'utente.
+    M;Y
+    M;N
+Fino a quando non ha la risposta il mittente non può passare il turno.
+Una volta passato il turno il mittente manderà al destinatario il permesso di inviare messaggi o fare tentativi più una serie di stringhe con le coordinate dei personaggi eliminati dall'utente.
 	F;coordinate...
-Il destinatario aggiornerà automaticamente la tanbella alla sua destra con le relative eliminazioni fatte dall'avversario.
+Il destinatario aggiornerà automaticamente la tabella con le relative eliminazioni fatte dall'avversario.
 
 Nel caso uno dei due utenti durante il suo turno volesse tentare di indovinare il nome del personaggio selezionato dovrà scrivere nella chat il nome del sospettato e premere il pulsante tenta.
-	T;nomeTenativo
+	T;nomeTentativo
 Se il destinatario risponde si verrà data la vittoria all'avversario che automaticamente chiuderà la connessione, in caso negativo l'avversario dovrà tenere conto della risposta sbagliata decrementando il numero di tentativi disponibili.
 Il tentativo equivale all'invio di una domanda, non si può fare una domanda e un tentativo nello stesso turno.
-	Y;
-	N;
+	W;Y   (invia il messaggio al vincitore e si disconnette)
+	W;N   (invia il messaggio e decrementa il numero di tentativi dell'avversario)
 Vincitore invia
-	E;
+	E; 
 Nel caso uno dei due sfidanti dovesse finire i tentativi o arrendersi, verrà inviata una disconnessione con relativa motivazione che sancirà la vittoria dello sfidante.
-	E;A
-	E;T
+	E;A (arrendersi)
+	E;T (tentativi)
+	E;W (indovinato la persona)
