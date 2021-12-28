@@ -1,0 +1,21 @@
+﻿<Window x:Class="WpfApp.Menu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp"
+        mc:Ignorable="d"
+        Title="Menu" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="47*"/>
+            <ColumnDefinition Width="418*"/>
+            <ColumnDefinition Width="51*"/>
+            <ColumnDefinition Width="277*"/>
+        </Grid.ColumnDefinitions>
+        <Button Content="INIZIO" Grid.Column="1" HorizontalAlignment="Left" Margin="162.8,89,0,0" VerticalAlignment="Top" Width="273" Grid.ColumnSpan="2" Height="77"/>
+        <Button Content="ESCI" Grid.Column="1" HorizontalAlignment="Left" Margin="157.8,249,0,0" VerticalAlignment="Top" Width="273" Grid.ColumnSpan="2" Height="77"/>
+        <Button Content="IMPOSTAZiONI" Grid.Column="1" HorizontalAlignment="Left" Margin="159.8,170,0,0" VerticalAlignment="Top" Width="273" Grid.ColumnSpan="2" Height="77"/>
+
+    </Grid>
+</Window>
