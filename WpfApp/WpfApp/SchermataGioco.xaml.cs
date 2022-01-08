@@ -35,17 +35,23 @@ namespace WpfApp
         }
         public void ButtonArray()
         {
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 24; i++)
             {
-                Button Btn = new Button();
-                Btn.Content = i.ToString();
-                Btn.Name = "Button" + i.ToString();
-                Btn.Width = width;
-                Btn.Height = height;
-                myButtons.Add(Btn);
+                for (int termine = 0; termine < 6; termine++)
+                {
+                    Button Btn = new Button();
+                    Btn.Content = i.ToString();
+                    Btn.Name = "Button" + i.ToString();
+                    Btn.Width = width;
+                    Btn.Height = height;
+                    myButtons.Add(Btn);
+                    myButtons.ElementAt(termine) = "vai a capo";
+                    var brush = new ImageBrush();
+                    brush.ImageSource = new BitmapImage(new Uri("Images/sagomaX.png", UriKind.Relative));
+                    Btn.Background = brush;
+                }
 
             }
-
         }
         private void Visualizza_Click(object sender, RoutedEventArgs e)
         {
