@@ -23,12 +23,11 @@ namespace WpfApp
         public MainWindow()
         {
             InitializeComponent();
-          
+            WindowState = WindowState.Maximized;//full screen
         }
         private void Window_MouseDoubleClick(object sender, MouseButtonEventArgs e)//doppio click per andare nella finestra menu
         {
-            //Menu finestra = new Menu();
-            SchermataGioco finestra = new SchermataGioco();
+            Menu finestra = new Menu();
             finestra.Show();
             this.Hide();
         }

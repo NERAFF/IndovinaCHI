@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,38 @@ namespace WpfApp
         public Menu()
         {
             InitializeComponent();
+            //WindowState = WindowState.Maximized;//full screen
+            var brush = new ImageBrush();
+            brush.ImageSource = new BitmapImage(new Uri(Directory.GetCurrentDirectory() + "\\Immagini\\play.png"));
+            btnInizio.Background = brush;
+
+            var brush2 = new ImageBrush();
+            brush2.ImageSource = new BitmapImage(new Uri(Directory.GetCurrentDirectory() + "\\Immagini\\settings.png"));
+            btnSetting.Background = brush2;
+
+            var brush3 = new ImageBrush();
+            brush3.ImageSource = new BitmapImage(new Uri(Directory.GetCurrentDirectory() + "\\Immagini\\exit.png"));
+            btnEsci.Background = brush3;
+
+
+
         }
 
+        private void BtnInizio_Click(object sender, RoutedEventArgs e)
+        {
+            SchermataGioco finestra = new SchermataGioco();
+            finestra.Show();
+            this.Hide();
+        }
+
+        private void BtnSetting_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnEsci_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

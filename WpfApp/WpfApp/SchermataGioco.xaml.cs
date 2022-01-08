@@ -19,66 +19,147 @@ namespace WpfApp
     /// </summary>
     public partial class SchermataGioco : Window
     {
-        Persone p;
-        List<Button> myButtons = new List<Button>();
-        bool OnScreen = false;
-        const int width = 100;
-        const int height = 25;
+        List<Button> myButtons = new List<Button>();//oppenent
+        List<Button> myButtons2 = new List<Button>();//local
+        Condivisa cond = new Condivisa();
+        const int width = 50;
+        const int height = 70;
         const int Step = 2;
         int currentx = 0;
+        int currenty = 0;
+        int currentx2 = 550;
+        int currenty2 = 0;
 
-        
+        int nIncognite = 24;
+        public RoutedEventHandler Onb2Click { get; private set; }
+
         public SchermataGioco()
         {
             InitializeComponent();
-            ButtonArray();
+            WindowState = WindowState.Maximized;//full screen
+            CreaSagome();
+            CreaPersonaggi();
+
         }
-        public void ButtonArray()
+        public void CreaSagome()//sagome opponent
         {
-            for (int i = 0; i < 24; i++)
+
+            int c = 0 ;
+            for (int j = 0; j < nIncognite; j++)//creazione sagoma avversario
             {
-                for (int termine = 0; termine < 6; termine++)
-                {
-                    Button Btn = new Button();
-                    Btn.Content = i.ToString();
-                    Btn.Name = "Button" + i.ToString();
+                c++;
+                    Button Btn = new Button();//creazione bottone
+                    //Btn.Content = (j+1).ToString();
+                    Btn.Name = "Button" + (j+1).ToString();
                     Btn.Width = width;
                     Btn.Height = height;
-                    myButtons.Add(Btn);
-                    myButtons.ElementAt(termine) = "vai a capo";
                     var brush = new ImageBrush();
-                    brush.ImageSource = new BitmapImage(new Uri("Images/sagomaX.png", UriKind.Relative));
+                    brush.ImageSource = new BitmapImage(new Uri("Immagini\\sagoma.png", UriKind.Relative));
                     Btn.Background = brush;
+                    Btn.Click += BtnClickSagome;
+                //Btn.Click += new System.EventHandler();
+                myButtons.Add(Btn);//aggiunge all array di bottoni
+
+
+
+                if (j % 6 == 0)//ogni 6 bottoni creati va a capo
+                {
+                    c = 0;
+                    currenty += 40;
+                    currentx = 50;
                 }
+                else
+                {
+                    currentx += 30;
+                }
+               
+                Canvas.SetTop(Btn, Step * currenty);//aggiunge il bottone al pannello
+                Canvas.SetLeft(Btn, Step * currentx);
+                MainCanvas.Children.Add(Btn);
 
             }
         }
-        private void Visualizza_Click(object sender, RoutedEventArgs e)
+        public void CreaPersonaggi()//personaggi local
         {
-            if (!OnScreen)
+
+            int c = 0;
+            //creazione sagome personaggi
+            for (int j = 0; j < 24; j++)
             {
-                foreach (var item in myButtons)
+                c++;
+                //creazione bottone
+                Button Btn2 = new Button();
+                //Btn2.Content = (j + 1).ToString();
+                Btn2.Name = cond.p.getPersonaggio(j).nome;//nome bottone=nome del personaggio
+                Btn2.Width = width;
+                Btn2.Height = height;
+                var brush = new ImageBrush();
+                brush.ImageSource = new BitmapImage(new Uri(cond.p.getPersonaggio(j).getPercorso(), UriKind.Relative));
+                Btn2.Background = brush;
+                Btn2.Click += BtnClickPersonaggi;
+                myButtons2.Add(Btn2);//aggiunge all'array di bottoni
+
+
+                if (j % 6 == 0 )//ogni 6 bottoni creati va a capo
                 {
-                    Canvas.SetLeft(item, Step * currentx);
-                    currentx += 50;
-                    MainCanvas.Children.Add(item);
+                    c = 0;
+                    currenty2 += 40;
+                    currentx2 = 550;
                 }
-                OnScreen = true;
+                else
+                {
+                    currentx2 += 30;
+                }
+                //aggiunge il bottone al pannello
+                Canvas.SetTop(Btn2, Step * currenty2);
+                Canvas.SetLeft(Btn2, Step * currentx2);
+                MainCanvas.Children.Add(Btn2);
+
             }
         }
-
-        private void Rimuovi_Click(object sender, RoutedEventArgs e)
+        private void BtnClickSagome(object sender, RoutedEventArgs e)//metodo bottone opponent
         {
-            if (OnScreen)
+            Button btn = (Button)sender;
+            MessageBox.Show(btn.Name);
+            
+        }
+        private void BtnClickPersonaggi(object sender, RoutedEventArgs e)//metodo bottone local
+        {
+            Button btn = (Button)sender;
+            var brush = new ImageBrush();
+            for (int i=0;i<nIncognite;i++)
             {
-                foreach (var item in myButtons)
+                if(cond.p.getPersonaggio(i).nome==btn.Name)
                 {
-
-                    MainCanvas.Children.Remove(item);
+                    if(cond.p.getPersonaggio(i).isAttivo()==true)
+                    { 
+                        cond.p.getPersonaggio(i).setAttivo(false);
+                        brush.ImageSource = new BitmapImage(new Uri("Immagini\\sagomaO.jpg", UriKind.Relative));
+                        btn.Background = brush;
+                    }
+                    else
+                    {
+                        cond.p.getPersonaggio(i).setAttivo(true);
+                        brush.ImageSource = new BitmapImage(new Uri(cond.p.getPersonaggio(i).getPercorso()));
+                    }
+                    btn.Background = brush;
+                    myButtons2.ElementAt(i).Background = brush;
                 }
-                OnScreen = false;
-                currentx = 0;
             }
+        }
+        private void BtnInvia_Click(object sender, RoutedEventArgs e)//no connessione-->invia richiesta conessione-->invia messaggio 
+        {
+
         }
     }
 }
+/*if (OnScreen)
+           {
+               foreach (var item in myButtons)
+               {
+
+                   MainCanvas.Children.Remove(item);
+               }
+               OnScreen = false;
+               currentx = 0;
+           }*/

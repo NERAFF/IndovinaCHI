@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace WpfApp
 {
-    class Condivisa
+    public class Condivisa
     {
-
+        public Persone p;
+        public Condivisa()
+        {
+            this.p = new Persone();
+        }
+      
     }
 }

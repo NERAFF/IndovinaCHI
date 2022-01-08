@@ -6,20 +6,22 @@ using System.Threading.Tasks;
 
 namespace WpfApp
 {
-    class Persona
+    public class Persona
     {
-        private String nome;
-        private String percorso;
-        private Boolean attivo;
+        public String nome;
+        public String percorso;
+        public Boolean attivo;
         public Persona()
         {
-
+            nome = "";
+            percorso = "";
+            attivo = true;
         }
         public Persona(String nome, String percorso)
         {
             this.nome = nome;
             this.percorso = percorso;
-            this.attivo = false;
+            this.attivo = true;
         }
 
         public void setAttivo(Boolean attivo)

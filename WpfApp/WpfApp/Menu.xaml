@@ -5,17 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp"
         mc:Ignorable="d"
-        Title="Menu" Height="450" Width="800">
-    <Grid>
+        Title="Menu" Height="450" Width="403.2">
+    <Grid Background="#FF7D7D7D">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="47*"/>
-            <ColumnDefinition Width="418*"/>
-            <ColumnDefinition Width="51*"/>
-            <ColumnDefinition Width="277*"/>
+            <ColumnDefinition Width="58*"/>
+            <ColumnDefinition Width="339*"/>
         </Grid.ColumnDefinitions>
-        <Button Content="INIZIO" Grid.Column="1" HorizontalAlignment="Left" Margin="162.8,89,0,0" VerticalAlignment="Top" Width="273" Grid.ColumnSpan="2" Height="77"/>
-        <Button Content="ESCI" Grid.Column="1" HorizontalAlignment="Left" Margin="157.8,249,0,0" VerticalAlignment="Top" Width="273" Grid.ColumnSpan="2" Height="77"/>
-        <Button Content="IMPOSTAZiONI" Grid.Column="1" HorizontalAlignment="Left" Margin="159.8,170,0,0" VerticalAlignment="Top" Width="273" Grid.ColumnSpan="2" Height="77"/>
+        <Button x:Name="btnInizio" Content="" HorizontalAlignment="Left" Margin="9.4,38,0,0" VerticalAlignment="Top" Width="273" Height="77" Grid.Column="1" Background="{x:Null}" BorderBrush="#009481AB"/>
+        <Button x:Name="btnEsci" Content="" HorizontalAlignment="Left" Margin="12.4,278,0,0" VerticalAlignment="Top" Width="273" Height="77" Grid.Column="1" Background="{x:Null}" BorderBrush="#00707070"/>
+        <Button x:Name="btnSetting" Content="" HorizontalAlignment="Left" Margin="13.4,148,0,0" VerticalAlignment="Top" Width="273" Height="77" Grid.Column="1" Background="{x:Null}" BorderBrush="#00707070"/>
 
     </Grid>
 </Window>

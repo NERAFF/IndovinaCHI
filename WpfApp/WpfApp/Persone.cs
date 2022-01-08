@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace WpfApp
 {
-    class Persone
+    public class Persone
     {
-        private List<Persona> persone;
+        public List<Persona> persone;
         public Persone()
         {
             //inizializzazione lista
@@ -26,7 +26,10 @@ namespace WpfApp
         {
             persone.RemoveAt(pos - 1); //elimina e ricompatta tutto di default
         }
-
+        public Persona getPersonaggio(int i)
+        {
+            return persone.ElementAt(i);
+        }
         public int nEl()
         {
             return persone.Count();//restituisce quanti elementi sono presenti
@@ -81,13 +84,11 @@ namespace WpfApp
             Aggiungi(tmp);
             tmp = new Persona("samuele", Directory.GetCurrentDirectory() + "\\Immagini\\Personaggi\\samuele.png");
             Aggiungi(tmp);
-            tmp = new Persona("susana", Directory.GetCurrentDirectory() + "\\Immagini\\Personaggi\\susana.png");
+            tmp = new Persona("susana", Directory.GetCurrentDirectory() + "\\Immagini\\Personaggi\\susanna.png");
             Aggiungi(tmp);
             tmp = new Persona("tommaso", Directory.GetCurrentDirectory() + "\\Immagini\\Personaggi\\tommaso.png");
             Aggiungi(tmp);
 
-            tmp = new Persona("sagoma", Directory.GetCurrentDirectory() + "\\Immagini\\Personaggi\\sagoma.png");
-            Aggiungi(tmp);
 
 
 
