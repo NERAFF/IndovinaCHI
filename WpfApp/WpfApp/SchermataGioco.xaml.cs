@@ -29,6 +29,9 @@ namespace WpfApp
         int currenty = 0;
         int currentx2 = 550;
         int currenty2 = 0;
+        double Tentativi;
+        double Tempo;
+        string NomeUtente;
 
         int nIncognite = 24;
         public RoutedEventHandler Onb2Click { get; private set; }
@@ -39,6 +42,23 @@ namespace WpfApp
             WindowState = WindowState.Maximized;//full screen
             CreaSagome();
             CreaPersonaggi();
+
+        }
+        public SchermataGioco(double Tentativi, double Tempo, string NomeUtente)
+        {
+            InitializeComponent();
+            WindowState = WindowState.Maximized;//full screen
+            CreaSagome();
+            CreaPersonaggi();
+
+            this.Tentativi = Tentativi;
+            this.Tempo = Tempo;
+            this.NomeUtente = NomeUtente;
+            LblTentativiMiei.Content = Tentativi;
+            LblTentativiAvversario.Content = Tentativi;
+            LblAvversario.Content = NomeUtente;
+            LblMio.Content = NomeUtente;
+
 
         }
         public void CreaSagome()//sagome opponent

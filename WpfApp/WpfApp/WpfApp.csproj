@@ -56,9 +56,16 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Condivisa.cs" />
+    <Compile Include="Impostazioni.xaml.cs">
+      <DependentUpon>Impostazioni.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SchermataGioco.xaml.cs">
       <DependentUpon>SchermataGioco.xaml</DependentUpon>
     </Compile>
+    <Page Include="Impostazioni.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

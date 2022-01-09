@@ -13,6 +13,9 @@
         <Button Content="TENTA" Canvas.Left="550" Canvas.Top="540" Width="140" Height="38"/>
         <Button Content="ARRENDITI" Canvas.Left="750" Canvas.Top="540" Width="140" Height="38"/>
         <Label Content="CHAT " Canvas.Left="556" Canvas.Top="18" Width="123"/>
+        <Label x:Name="LblTentativiAvversario" Content="Tentativo Mio" Height="44" Width="257" Canvas.Left="56" Canvas.Top="546"/>
+        <Label x:Name="LblTentativiMiei" Content="Tentativo Avversario" Canvas.Left="1138" Canvas.Top="546" Height="32" Width="247"/>
+        <Label x:Name="LblMio" Content="Nome Utente Mio" Canvas.Left="1160" Height="46" Width="313"/>
 
     </Canvas>
 </Window>
