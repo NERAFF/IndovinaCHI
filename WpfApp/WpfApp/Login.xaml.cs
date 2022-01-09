@@ -10,26 +10,25 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace WpfApp
 {
     /// <summary>
-    /// Logica di interazione per MainWindow.xaml
+    /// Logica di interazione per Login.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Login : Window
     {
-        public MainWindow()
+        public Login()
         {
             InitializeComponent();
-            WindowState = WindowState.Maximized;//full screen
         }
-        private void Window_MouseDoubleClick(object sender, MouseButtonEventArgs e)//doppio click per andare nella finestra menu
+
+        private void BtnConferma_Click(object sender, RoutedEventArgs e)
         {
-            Login finestra = new Login();
-            finestra.Show();
+            Menu finestra = new Menu(txNome.Text);
             this.Close();
+            finestra.Show();
         }
     }
 }

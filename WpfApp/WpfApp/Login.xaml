@@ -1,0 +1,15 @@
+﻿<Window x:Class="WpfApp.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp"
+        mc:Ignorable="d"
+        Title="Login" Height="228.455" Width="256.818">
+    <Grid Background="#FFFFEB92">
+        <TextBox x:Name="txNome" HorizontalAlignment="Left" Height="23" Margin="67,94,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Label Content="NOME UTENTE" HorizontalAlignment="Left" Margin="38,34,0,0" VerticalAlignment="Top" Width="179" FontSize="22" FontWeight="Bold"/>
+        <Button x:Name="btnConferma" Content="CONFERMA" HorizontalAlignment="Left" Margin="85,145,0,0" VerticalAlignment="Top" Width="75" Click="BtnConferma_Click" Background="#FF04FFF1"/>
+
+    </Grid>
+</Window>

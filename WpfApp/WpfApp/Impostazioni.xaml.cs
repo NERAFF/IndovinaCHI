@@ -19,14 +19,16 @@ namespace WpfApp
     /// </summary>
     public partial class Impostazioni : Window
     {
-        public Impostazioni()
+        string nomeUtente;
+        public Impostazioni(string nomeUtente)
         {
             InitializeComponent();
+            this.nomeUtente = nomeUtente;
         }
 
         private void Slider1_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            LblSlider1.Content = Slider1.Value;
+            LblSlider1.Content = SliderTentativi.Value;//tentativi
         }
 
         private void SliderTempo_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -36,8 +38,8 @@ namespace WpfApp
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Menu Finestra = new Menu(Slider1.Value, SliderTempo.Value, TxtUtente.Text);
-            this.Hide();
+            Menu Finestra = new Menu(nomeUtente, SliderTentativi.Value, SliderTempo.Value, TxtIpavv.Text);
+            this.Close();
             Finestra.Show();
             
         }

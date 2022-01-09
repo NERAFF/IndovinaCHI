@@ -59,10 +59,17 @@
     <Compile Include="Impostazioni.xaml.cs">
       <DependentUpon>Impostazioni.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SchermataGioco.xaml.cs">
       <DependentUpon>SchermataGioco.xaml</DependentUpon>
     </Compile>
     <Page Include="Impostazioni.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -120,6 +127,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Home.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icona.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -19,10 +19,12 @@ namespace WpfApp
     /// </summary>
     public partial class SchermataGioco : Window
     {
-        List<Button> myButtons = new List<Button>();//oppenent
+        List<Button> myButtons = new List<Button>();//opponent
         List<Button> myButtons2 = new List<Button>();//local
         Condivisa cond = new Condivisa();
         Persona incognita = new Persona();
+
+        //cordinate dei bottoni
         const int width = 50;
         const int height = 70;
         const int Step = 2;
@@ -30,22 +32,16 @@ namespace WpfApp
         int currenty = 0;
         int currentx2 = 550;
         int currenty2 = 0;
+
+        //impostazioni
         double Tentativi;
         double Tempo;
         string NomeUtente;
-
+        string NomeUtenteAvversario;
         int nIncognite = 24;
-        public RoutedEventHandler Onb2Click { get; private set; }
 
-        public SchermataGioco()
-        {
-            InitializeComponent();
-            WindowState = WindowState.Maximized;//full screen
-            CreaSagome();
-            CreaPersonaggi();
-
-        }
-        public SchermataGioco(double Tentativi, double Tempo, string NomeUtente)
+   
+        public SchermataGioco(string ipAvversario, double Tentativi, double Tempo, string NomeUtente, string NomeUtenteAvversario)
         {
             InitializeComponent();
             WindowState = WindowState.Maximized;//full screen
@@ -141,10 +137,11 @@ namespace WpfApp
 
             }
         }
+
         private void BtnClickSagome(object sender, RoutedEventArgs e)//metodo bottone opponent
         {
-            Button btn = (Button)sender;
-            MessageBox.Show(btn.Name);
+            //Button btn = (Button)sender;
+            //MessageBox.Show(btn.Name);
             
         }
         private void BtnClickPersonaggi(object sender, RoutedEventArgs e)//metodo bottone local
@@ -171,19 +168,9 @@ namespace WpfApp
                 }
             }
         }
-        private void BtnInvia_Click(object sender, RoutedEventArgs e)//no connessione-->invia richiesta conessione-->invia messaggio 
+        private void BtnInvia_Click(object sender, RoutedEventArgs e)
         {
 
         }
     }
 }
-/*if (OnScreen)
-           {
-               foreach (var item in myButtons)
-               {
-
-                   MainCanvas.Children.Remove(item);
-               }
-               OnScreen = false;
-               currentx = 0;
-           }*/

@@ -7,7 +7,7 @@ Inserisco l’IP del destinatario che dovrà accettare o rifiutare. In caso affe
 	Y;nicknameAvversario
 	N;
 Una volta stabilita la connessione verrà salvato in locale ip dell'avversario, ogni volta che arriva un pacchetto viene controllato l'ip se corrisponde
-a quello stabilito durante la connessione, se l'ip risulta diverso il pacchetto verrà scartato.
+ a quello stabilito durante la connessione, se l'ip risulta diverso il pacchetto verrà scartato.
 
 In caso di connessione stabilita per la scelta del turno posso scegliere 2 opzioni
 Il creatore della partita parte per primo
