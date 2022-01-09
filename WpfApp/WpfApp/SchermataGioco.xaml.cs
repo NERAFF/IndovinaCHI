@@ -56,7 +56,7 @@ namespace WpfApp
             this.NomeUtente = NomeUtente;
             LblTentativiMiei.Content = Tentativi;
             LblTentativiAvversario.Content = Tentativi;
-            LblAvversario.Content = NomeUtente;
+            
             LblMio.Content = NomeUtente;
 
 

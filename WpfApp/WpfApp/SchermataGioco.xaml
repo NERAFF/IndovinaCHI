@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WpfApp"
         mc:Ignorable="d"
         Title="SchermataGioco" Height="931.55" Width="1493.6" Background="White">
-    <Canvas x:Name="MainCanvas" Margin="3,0,0.2,0.6" Background="#FFB8F9FF">
+    <Canvas x:Name="MainCanvas" Margin="3,0,0.2,0.6" Background="#FFFFEB92">
         <TextBlock x:Name="lblChat" Canvas.Left="550" TextWrapping="Wrap" Canvas.Top="42" Height="428" Width="400" Background="White"><Run Text="TextBlock"/></TextBlock>
         <Button x:Name="btnInvia" Content="INVIA" Canvas.Left="880" Canvas.Top="470" Width="70" Height="30" Click="BtnInvia_Click" RenderTransformOrigin="1.407,1.125"/>
         <TextBox x:Name="txtMessaggio" Height="28" TextWrapping="Wrap" Width="330" Background="#FFCBCBCB" Canvas.Left="550" Canvas.Top="470"/>
