@@ -22,6 +22,7 @@ namespace WpfApp
         List<Button> myButtons = new List<Button>();//oppenent
         List<Button> myButtons2 = new List<Button>();//local
         Condivisa cond = new Condivisa();
+        Persona incognita = new Persona();
         const int width = 50;
         const int height = 70;
         const int Step = 2;
@@ -58,7 +59,10 @@ namespace WpfApp
             LblTentativiAvversario.Content = Tentativi;
             
             LblMio.Content = NomeUtente;
-
+            Random rnd = new Random();
+            int numeroRandom = rnd.Next(0, 25);
+            ImageRandom.Source = new BitmapImage(new Uri(cond.p.getPersonaggio(numeroRandom).getPercorso()));
+            incognita = cond.p.getPersonaggio(numeroRandom);
 
         }
         public void CreaSagome()//sagome opponent

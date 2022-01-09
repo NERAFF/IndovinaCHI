@@ -5,17 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp"
         mc:Ignorable="d"
-        Title="SchermataGioco" Height="931.55" Width="1493.6" Background="White">
+        Title="SchermataGioco" Height="835.55" Width="1415.6" Background="White">
     <Canvas x:Name="MainCanvas" Margin="3,0,0.2,0.6" Background="#FFFFEB92">
         <TextBlock x:Name="lblChat" Canvas.Left="550" TextWrapping="Wrap" Canvas.Top="42" Height="428" Width="400" Background="White"><Run Text="TextBlock"/></TextBlock>
         <Button x:Name="btnInvia" Content="INVIA" Canvas.Left="880" Canvas.Top="470" Width="70" Height="30" Click="BtnInvia_Click" RenderTransformOrigin="1.407,1.125"/>
         <TextBox x:Name="txtMessaggio" Height="28" TextWrapping="Wrap" Width="330" Background="#FFCBCBCB" Canvas.Left="550" Canvas.Top="470"/>
         <Button Content="TENTA" Canvas.Left="550" Canvas.Top="540" Width="140" Height="38"/>
-        <Button Content="ARRENDITI" Canvas.Left="750" Canvas.Top="540" Width="140" Height="38"/>
+        <Button Content="ARRENDITI" Canvas.Left="810" Canvas.Top="540" Width="140" Height="38"/>
         <Label Content="CHAT " Canvas.Left="556" Canvas.Top="18" Width="123"/>
         <Label x:Name="LblTentativiAvversario" Content="Tentativo Mio" Height="44" Width="257" Canvas.Left="56" Canvas.Top="546"/>
         <Label x:Name="LblTentativiMiei" Content="Tentativo Avversario" Canvas.Left="1138" Canvas.Top="546" Height="32" Width="247"/>
         <Label x:Name="LblMio" Content="Nome Utente Mio" Canvas.Left="1160" Height="46" Width="313"/>
+        <Label Content="Il personaggio da capire é:" Canvas.Left="674" Canvas.Top="611" Height="45" Width="153"/>
+        <Image x:Name="ImageRandom" Height="100" Width="100" Canvas.Left="698" Canvas.Top="656"/>
 
     </Canvas>
 </Window>
