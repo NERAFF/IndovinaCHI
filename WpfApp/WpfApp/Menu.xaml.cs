@@ -16,6 +16,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+/*il peer1 riesce a mandare al peer2 la richiesta
+il peer2 la riceve ma il peer1 non riceve nulla
+
+ */
 namespace WpfApp
 {
     /// <summary>
@@ -31,6 +35,7 @@ namespace WpfApp
         string nomeUtenteAVV = "";
 
         CMessaggio mess;//classe per invio e ricezione dei pacchetti
+
         Thread receivingThread;//thread di ricezione
         ThreadStart start;
 
@@ -44,7 +49,7 @@ namespace WpfApp
         {
             InitializeComponent();
             setMenu();
-            mess = new CMessaggio();//porta dove ascolto
+            mess = new CMessaggio();//porta dove
             //thread per ricevere i dati in background => non bloccante
             start = new ThreadStart(Receiver);
             receivingThread = new Thread(start);
@@ -104,15 +109,18 @@ namespace WpfApp
                     //il secondo peer riceve C e il nome utente di chi vuole connettersi
                     if (MessageBox.Show("Vuoi stabilire la connessione?", "Richiesta di connessione", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
-                        connetendosi = true;
                         nomeUtente = vettElementi[1];
                         Tempo = Double.Parse(vettElementi[2]);
                         Tentativi = Double.Parse(vettElementi[3]);
 
-                        mess.setIpavversario(IPAddress.Parse(ipAvversario));
 
                         string daRitornare = "y;" + nomeUtente; //Il secondo peer invia y = yes e il suo Username
+
+                        connetendosi = true;
+                        mess.setConnessione();
                         mess.invia(daRitornare);//invia il y;mioUsername al primo peer
+
+                        MessageBox.Show("voglio giocare "+mess.getMessaggio());
                     }
                     else
                     {
@@ -131,6 +139,7 @@ namespace WpfApp
                         {
                             SchermataGioco m = new SchermataGioco(ipAvversario, Tentativi, Tempo, nomeUtente, nomeUtenteAVV, mess);
                             m.Show();
+                            receivingThread.Abort();
                             this.Close();
                         }));
                         break; //il thread smette di creare mess
@@ -141,6 +150,7 @@ namespace WpfApp
                         {
                             SchermataGioco m = new SchermataGioco(ipAvversario, Tentativi, Tempo, nomeUtente, nomeUtenteAVV,mess);
                             m.Show();
+                            receivingThread.Abort();
                             this.Close();
                         }));
                         break; //il thread smette di creare mess
@@ -160,11 +170,11 @@ namespace WpfApp
                 mess.setIpavversario(IPAddress.Parse(ipAvversario));
                 //qui invia richiesta connessone 
                 string toSend = "c;" +nomeUtente+";"+Tempo+";"+Tentativi; //Primo peer vuole instaurare la connessione
+
+                connetendosi = true;//si sta cercando di connettersi
+                mess.setConnessione();
                 mess.invia(toSend);
                 MessageBox.Show("Connessione...");
-                connetendosi = true;//si sta cercando di connettersi
-                receivingThread.Abort();
-
             }
             else
             {

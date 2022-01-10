@@ -23,16 +23,21 @@ namespace WpfApp
             client = new UdpClient(porta);
             iPEndPoint = new IPEndPoint(IPAddress.Any, porta);
         }
-        public void invia(string mess)
+        public void setConnessione()
         {
             client = new UdpClient(ipAvversario.ToString(), porta);
-            Byte[] sendBytes = Encoding.ASCII.GetBytes(mess);
+        }
+        public void invia(string messaggio)
+        {
+            this.messaggio = messaggio;
+            Console.WriteLine(ipAvversario);
+            Byte[] sendBytes = Encoding.ASCII.GetBytes(messaggio);
             client.Send(sendBytes, sendBytes.Length);
-            Console.WriteLine("{0} {1}", ipAvversario.ToString(), mess);
         }
         public void ricevi()
         {
             byte[] test = client.Receive(ref iPEndPoint);
+            setIpavversario(iPEndPoint.Address);//memorizzo ip del peer
             messaggio = Encoding.Default.GetString(test);
         }
         public void setIpavversario(IPAddress ipAvversario)
