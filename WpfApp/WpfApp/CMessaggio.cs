@@ -29,8 +29,8 @@ namespace WpfApp
         }
         public void invia(string messaggio)
         {
+            client = new UdpClient(ipAvversario.ToString(), 2009);
             this.messaggio = messaggio;
-            Console.WriteLine(ipAvversario);
             Byte[] sendBytes = Encoding.ASCII.GetBytes(messaggio);
             client.Send(sendBytes, sendBytes.Length);
         }

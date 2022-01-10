@@ -109,7 +109,7 @@ namespace WpfApp
                     //il secondo peer riceve C e il nome utente di chi vuole connettersi
                     if (MessageBox.Show("Vuoi stabilire la connessione?", "Richiesta di connessione", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
-                        nomeUtente = vettElementi[1];
+                        nomeUtenteAVV = vettElementi[1];
                         Tempo = Double.Parse(vettElementi[2]);
                         Tentativi = Double.Parse(vettElementi[3]);
 
@@ -137,7 +137,7 @@ namespace WpfApp
                         mess.invia("y;");
                         Dispatcher.BeginInvoke((Action)(() =>//connessione stabilita-->si va alla schermata di gioco
                         {
-                            SchermataGioco m = new SchermataGioco(ipAvversario, Tentativi, Tempo, nomeUtente, nomeUtenteAVV, mess);
+                            SchermataGioco m = new SchermataGioco(ipAvversario, Tentativi, Tempo, nomeUtente, nomeUtenteAVV);
                             m.Show();
                             receivingThread.Abort();
                             this.Close();
@@ -148,7 +148,7 @@ namespace WpfApp
                     {
                         Dispatcher.BeginInvoke((Action)(() =>//connessione stabilita--> si va alla schermatta di gioco
                         {
-                            SchermataGioco m = new SchermataGioco(ipAvversario, Tentativi, Tempo, nomeUtente, nomeUtenteAVV,mess);
+                            SchermataGioco m = new SchermataGioco(ipAvversario, Tentativi, Tempo, nomeUtente, nomeUtenteAVV);
                             m.Show();
                             receivingThread.Abort();
                             this.Close();
