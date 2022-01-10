@@ -11,36 +11,41 @@ namespace WpfApp
 {
     public class CMessaggio
     {
+        int porta;
         private UdpClient client;
-        public string ipAvversario;
+        //public string ipAvversario;
+        public IPAddress ipAvversario;
         IPEndPoint iPEndPoint;
+        private string messaggio;
         public CMessaggio()
         {
-            ipAvversario = "localhost";
-            client = new UdpClient(ipAvversario,2009);
-            iPEndPoint = new IPEndPoint(IPAddress.Any, 0);
+            porta = 2009;
+            client = new UdpClient(porta);
+            iPEndPoint = new IPEndPoint(IPAddress.Any, porta);
         }
-        public void send(string mess)
+        public void invia(string mess)
         {
+            client = new UdpClient(ipAvversario.ToString(), porta);
             Byte[] sendBytes = Encoding.ASCII.GetBytes(mess);
             client.Send(sendBytes, sendBytes.Length);
+            Console.WriteLine("{0} {1}", ipAvversario.ToString(), mess);
         }
-        public string receive()
+        public void ricevi()
         {
-           
             byte[] test = client.Receive(ref iPEndPoint);
-            string msg = Encoding.Default.GetString(test);
-            ipAvversario = iPEndPoint.Address.ToString();
-            return msg;
+            messaggio = Encoding.Default.GetString(test);
         }
-        public void setIpavversario(string ipAvversario)
+        public void setIpavversario(IPAddress ipAvversario)
         {
             this.ipAvversario = ipAvversario;
-            client.Connect(ipAvversario, 2009);
         }
         public string getIpavversario()
         {
             return iPEndPoint.Address.ToString();
+        }
+        public string getMessaggio()
+        {
+            return messaggio;
         }
     }
 }

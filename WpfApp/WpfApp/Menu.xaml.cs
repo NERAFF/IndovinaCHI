@@ -97,9 +97,8 @@ namespace WpfApp
             }
             while (true)
             {
-                string messRicevuto = mess.receive();
-                String[] vettElementi = messRicevuto.Split(';');
-                MessageBox.Show("è arrivato un pacchetto");
+                mess.ricevi();
+                String[] vettElementi = mess.getMessaggio().Split(';');
                 if (vettElementi[0] == "c")//richiesta connesione 
                 {
                     //il secondo peer riceve C e il nome utente di chi vuole connettersi
@@ -109,13 +108,16 @@ namespace WpfApp
                         nomeUtente = vettElementi[1];
                         Tempo = Double.Parse(vettElementi[2]);
                         Tentativi = Double.Parse(vettElementi[3]);
+
+                        mess.setIpavversario(IPAddress.Parse(ipAvversario));
+
                         string daRitornare = "y;" + nomeUtente; //Il secondo peer invia y = yes e il suo Username
-                        mess.send(daRitornare);//invia il y;mioUsername al primo peer
+                        mess.invia(daRitornare);//invia il y;mioUsername al primo peer
                     }
                     else
                     {
                         //se il secondo peer rifiuta la connessione manda una n = no
-                        mess.send("n;");
+                        mess.invia("n;");
                     }
                 }
                 else if (vettElementi[0] == "y")//sia la seconda che la terza fase
@@ -124,7 +126,7 @@ namespace WpfApp
                     if (connetendosi)//riceve Y;nickname
                     {
                         nomeUtenteAVV = vettElementi[1];
-                        mess.send("y;");
+                        mess.invia("y;");
                         Dispatcher.BeginInvoke((Action)(() =>//connessione stabilita-->si va alla schermata di gioco
                         {
                             SchermataGioco m = new SchermataGioco(ipAvversario, Tentativi, Tempo, nomeUtente, nomeUtenteAVV, mess);
@@ -155,10 +157,10 @@ namespace WpfApp
         {
             if (impostazioni)
             {
-                mess.setIpavversario(ipAvversario);
+                mess.setIpavversario(IPAddress.Parse(ipAvversario));
                 //qui invia richiesta connessone 
                 string toSend = "c;" +nomeUtente+";"+Tempo+";"+Tentativi; //Primo peer vuole instaurare la connessione
-                mess.send(toSend);
+                mess.invia(toSend);
                 MessageBox.Show("Connessione...");
                 connetendosi = true;//si sta cercando di connettersi
                 receivingThread.Abort();
