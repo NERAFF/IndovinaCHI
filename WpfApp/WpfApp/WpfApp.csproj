@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CMessaggio.cs" />
     <Compile Include="Condivisa.cs" />
     <Compile Include="Impostazioni.xaml.cs">
       <DependentUpon>Impostazioni.xaml</DependentUpon>

@@ -40,8 +40,8 @@ namespace WpfApp
         string NomeUtenteAvversario;
         int nIncognite = 24;
 
-   
-        public SchermataGioco(string ipAvversario, double Tentativi, double Tempo, string NomeUtente, string NomeUtenteAvversario)
+        CMessaggio messaggio;
+        public SchermataGioco(string ipAvversario, double Tentativi, double Tempo, string NomeUtente, string NomeUtenteAvversario, CMessaggio messaggio)
         {
             InitializeComponent();
             WindowState = WindowState.Maximized;//full screen
@@ -51,11 +51,12 @@ namespace WpfApp
             this.Tentativi = Tentativi;
             this.Tempo = Tempo;
             this.NomeUtente = NomeUtente;
+            this.NomeUtenteAvversario = NomeUtenteAvversario;
             LblTentativiMiei.Content = Tentativi;
             LblTentativiAvversario.Content = Tentativi;
-            
+            this.messaggio = messaggio;
             LblMio.Content = NomeUtente;
-            Random rnd = new Random();
+            Random rnd = new Random();//classe per il random del personaggio da indovinare
             int numeroRandom = rnd.Next(0, 25);
             ImageRandom.Source = new BitmapImage(new Uri(cond.p.getPersonaggio(numeroRandom).getPercorso()));
             incognita = cond.p.getPersonaggio(numeroRandom);
