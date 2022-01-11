@@ -11,24 +11,30 @@ namespace WpfApp
         public String nome;
         public String percorso;
         public Boolean attivo;
+        public Boolean eliminato;
         public Persona()
         {
             nome = "";
             percorso = "";
             attivo = true;
+            eliminato = true;
         }
         public Persona(String nome, String percorso)
         {
             this.nome = nome;
             this.percorso = percorso;
             this.attivo = true;
+            this.eliminato = true;
         }
 
         public void setAttivo(Boolean attivo)
         {
             this.attivo = attivo;
         }
-
+        public void setEliminato(Boolean eliminato)
+        {
+            this.eliminato = eliminato;
+        }
         public void setPercorso(String percorso)
         {
             this.percorso = percorso;
@@ -47,6 +53,10 @@ namespace WpfApp
         public Boolean isAttivo()
         {
             return attivo;
+        }
+        public Boolean isEliminato()
+        {
+            return eliminato;
         }
     }
 }

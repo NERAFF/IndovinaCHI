@@ -90,9 +90,6 @@ namespace WpfApp
             Aggiungi(tmp);
 
 
-
-
-
         }
     }
 }

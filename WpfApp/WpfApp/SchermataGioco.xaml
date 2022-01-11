@@ -10,12 +10,19 @@
         <TextBlock x:Name="txt_all" Canvas.Left="550" TextWrapping="Wrap" Canvas.Top="42" Height="428" Width="400" Background="White" FontWeight="Bold" FontFamily="MV Boli"/>
         <Button x:Name="btnInvia" Content="INVIA" Canvas.Left="880" Canvas.Top="470" Width="70" Height="30" Click="BtnInvia_Click" RenderTransformOrigin="1.407,1.125" Background="#FF04FFF1"/>
         <TextBox x:Name="txtMessaggio" Height="28" TextWrapping="Wrap" Width="330" Background="#FFCBCBCB" Canvas.Left="550" Canvas.Top="470" FontFamily="MV Boli"/>
-        <Label Content="CHAT " Canvas.Left="556" Canvas.Top="18" Width="123"/>
-        <Label x:Name="LblTentativiAvversario" Content="Tentativo Avversario" Height="50" Width="412" Canvas.Left="56" Canvas.Top="546" FontSize="22" FontWeight="Bold"/>
+        <Label x:Name="lblChatt" Content="CHAT " Canvas.Left="556" Canvas.Top="18" Width="274"/>
+        <Label x:Name="LblTentativiAvversario" Content="Tentativo Avversario" Height="50" Width="398" Canvas.Left="56" Canvas.Top="546" FontSize="22" FontWeight="Bold"/>
         <Label x:Name="LblTentativiMiei" Content="Tentativo Mio" Canvas.Left="1030" Canvas.Top="547" Height="47" Width="361" FontWeight="Bold" FontSize="22"/>
-        <Label Content="INCOGNITO DA INDOVINARE" Canvas.Left="1198" Canvas.Top="635" Height="45" Width="173"/>
-        <Image x:Name="ImageRandom" Height="100" Width="100" Canvas.Left="1222" Canvas.Top="680"/>
-        <Label x:Name="lblMatch" Content="  &#x9;&#x9; VS" Canvas.Top="667" Height="78" Width="765" FontFamily="MV Boli" FontSize="40" FontWeight="Bold"/>
-
+        <Label Content="INCOGNITO DA INDOVINARE" Canvas.Left="1100" Canvas.Top="635" Height="45" Width="299" FontSize="22"/>
+        <Image x:Name="ImageRandom" Height="116" Width="116" Canvas.Left="1270" Canvas.Top="682"/>
+        <Label x:Name="lblMatch" Content="  &#x9;&#x9; VS" Canvas.Top="625" Height="78" Width="559" FontFamily="MV Boli" FontSize="30" FontWeight="Bold" Canvas.Left="461"/>
+        <Label x:Name="lblStatoTurno" Content="statoTurno" Canvas.Left="545" Canvas.Top="743" FontFamily="MV Boli" FontSize="22" FontWeight="Bold" Width="401"/>
+        <Button x:Name="btnRound" Canvas.Left="600" Canvas.Top="514" Width="126" Height="54" Click="BtnRound_Click">
+            <Image Height="51" Source="round.jpg" Stretch="Fill" Width="125"/>
+        </Button>
+        <Button x:Name="btnTentativo" Canvas.Left="759" Canvas.Top="514" Width="126" Height="54" Click="BtnTentativo_Click">
+            <Image Height="53" Source="try.jpg" Stretch="Fill" Width="122"/>
+        </Button>
+        <Button Content="X" Canvas.Right="0" Canvas.Top="0" Width="76" Height="48" Background="#FFDF0000" Click="Button_Click"/>
     </Canvas>
 </Window>

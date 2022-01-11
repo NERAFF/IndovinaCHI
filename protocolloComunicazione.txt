@@ -4,7 +4,7 @@ Finestra iniziale scelta difficoltà, una volta premuto il bottone richiede di i
 Scelta del nickname, possibilità di scegliere il tempo per turno e il numero di tentativi
 	C;nickname;tempoTotale;nTentativi
 Inserisco l’IP del destinatario che dovrà accettare o rifiutare. In caso affermativo verrà mandato anche il nickname dell’altro partecipante.
-	Y;nicknameAvversario
+	Y;nicknameAvversario;
 	N;
 Una volta stabilita la connessione verrà salvato in locale ip dell'avversario, ogni volta che arriva un pacchetto viene controllato l'ip se corrisponde
 a quello stabilito durante la connessione, se l'ip risulta diverso il pacchetto verrà scartato.
@@ -37,3 +37,8 @@ Nel caso uno dei due sfidanti dovesse finire i tentativi o arrendersi, verrà in
 	E;A (arrendersi)
 	E;T (tentativi)
 	E;W (indovinato la persona)
+
+------------
+modifiche fatte:
+-manca terza fase di connessione "y;"
+-manca la risposta al tentativo sbagliato uso la lettera "h;"

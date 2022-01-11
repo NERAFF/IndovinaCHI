@@ -7,14 +7,14 @@
         mc:Ignorable="d"
         Title="Impostazioni" Height="387.296" Width="375.819">
     <Grid Margin="0,0,-8,1" Background="#FFFFEB92">
-        <Slider x:Name="SliderTentativi" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="77,99,0,0" Width="183" TickPlacement="BottomRight" Maximum="4" IsSnapToTickEnabled="True" ValueChanged="Slider1_ValueChanged"/>
-        <Label x:Name="LblSlider1" Content="0" HorizontalAlignment="Left" Margin="29,99,0,0" VerticalAlignment="Top"/>
+        <Slider x:Name="SliderTentativi" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="76,139,0,0" Width="183" TickPlacement="BottomRight" Maximum="4" IsSnapToTickEnabled="True" ValueChanged="Slider1_ValueChanged"/>
+        <Label x:Name="LblSlider1" Content="1" HorizontalAlignment="Left" Margin="28,139,0,0" VerticalAlignment="Top" Width="24"/>
         <Button Content="Conferma Impostazioni" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Margin="91,272,0,0" Click="Button_Click" Background="#FF04FFF1"/>
         <TextBox x:Name="TxtIpavv" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" Margin="140,42,0,0"/>
-        <Slider x:Name="SliderTempo" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="77,190,0,0" Width="183" TickPlacement="BottomRight" Maximum="60" IsSnapToTickEnabled="True" ValueChanged="SliderTempo_ValueChanged" LargeChange="10" TickFrequency="5"/>
-        <Label x:Name="LblSliderTempo" Content="0" HorizontalAlignment="Left" Margin="29,190,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.744,0.205"/>
-        <Label Content="Tempo" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="278,190,0,0" Width="61"/>
-        <Label Content="Tentativi" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="278,99,0,0" Width="61"/>
+        <Slider x:Name="SliderTempo" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="75,92,0,0" Width="183" TickPlacement="BottomRight" Maximum="60" IsSnapToTickEnabled="True" ValueChanged="SliderTempo_ValueChanged" LargeChange="10" TickFrequency="5"/>
+        <Label x:Name="LblSliderTempo" Content="0" HorizontalAlignment="Left" Margin="27,92,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.744,0.205"/>
+        <Label Content="Tempo" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="276,92,0,0" Width="61"/>
+        <Label Content="Tentativi" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="277,139,0,0" Width="61"/>
         <Label x:Name="Lbl1" Content="IP AVVERSARIO" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="25,38,0,0" Width="103"/>
 
     </Grid>

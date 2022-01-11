@@ -40,9 +40,8 @@ namespace WpfApp
         Thread receivingThread;//thread di ricezione
         ThreadStart start;
 
-        //IPEndPoint endPoint;
 
-        bool connetendosi = false;
+        bool connetendosi = false;//mi serve per capire se inviare "y;" oppure "y;nickname"
         bool impostazioni = false;
 
         bool Mioturno = false;
@@ -103,15 +102,14 @@ namespace WpfApp
                 //classe ricevi non va bene è bloccante
                 //mess.ricevi();
                 byte[] test = recevingClient.Receive(ref endPoint);
-                ipAvversario = endPoint.Address.ToString();
                 string message = Encoding.ASCII.GetString(test);
                 String[] vettElementi = message.Split(';');
+
                 if (vettElementi[0] == "c")//richiesta connesione 
                 {
                     //il secondo peer riceve C e il nome utente di chi vuole connettersi
                     if (MessageBox.Show("Vuoi stabilire la connessione?", "Richiesta di connessione", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
-                        MessageBox.Show(message);
                         nomeUtenteAVV = vettElementi[1];
                         Tempo = Double.Parse(vettElementi[2]);
                         Tentativi = Double.Parse(vettElementi[3]);
@@ -119,7 +117,6 @@ namespace WpfApp
 
                         string daRitornare = "y;" + nomeUtente+";"; //Il secondo peer invia y = yes e il suo Username
 
-                        connetendosi = true;
                         sendData(ipAvversario, daRitornare);
 
                     }
@@ -132,20 +129,33 @@ namespace WpfApp
                 else if (vettElementi[0] == "y")//sia la seconda che la terza fase
                 {
 
-                    if (!connetendosi)//riceve Y;nickname
+                    if (connetendosi)//riceve Y;nickname
                     {
+                        MessageBox.Show(vettElementi[1]);
                         nomeUtenteAVV = vettElementi[1];
-                        sendData(ipAvversario, "y;");   
+                        sendData(ipAvversario, "y;");
+                        Dispatcher.BeginInvoke((Action)(() =>//connessione stabilita-->si va alla schermata di gioco
+                        {
+                            sendingClient.Close();
+                            recevingClient.Close();
+                            SchermataGioco m = new SchermataGioco(ipAvversario, Tentativi, Tempo, nomeUtente, nomeUtenteAVV, true);//inizia il turno per prima
+                            m.Show();
+                            this.Close();
+                        }));
+                        break;
                     }
-                    Dispatcher.BeginInvoke((Action)(() =>//connessione stabilita-->si va alla schermata di gioco
+                    else
                     {
-                        SchermataGioco m = new SchermataGioco(ipAvversario, Tentativi, Tempo, nomeUtente, nomeUtenteAVV);
-                        m.Show();
-                        sendingClient.Close();
-                        recevingClient.Close();
-                        this.Close();
-                    }));
-                    break; //il thread smette di creare mess
+                        Dispatcher.BeginInvoke((Action)(() =>//connessione stabilita-->si va alla schermata di gioco
+                        {
+                            sendingClient.Close();
+                            recevingClient.Close();
+                            SchermataGioco m = new SchermataGioco(ipAvversario, Tentativi, Tempo, nomeUtente, nomeUtenteAVV,false);
+                            m.Show();
+                            this.Close();
+                        }));
+                        break; //il thread smette di creare mess
+                    }
                 }
                 else//altri messaggi
                 {

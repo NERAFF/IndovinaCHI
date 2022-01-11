@@ -38,13 +38,15 @@ namespace WpfApp
 
         //impostazioni
         double Tentativi;
+        double TentativiMiei;
+        double TentativiAvversario;
         double Tempo;
         string NomeUtente;
         string NomeUtenteAvversario;
         int nIncognite = 24;
         bool turno = false;
         //comunicazioni
-        const int port = 2003;
+        const int port = 2009;
         string mioUsername;
         string altroClient;
         UdpClient receivingClient;
@@ -52,28 +54,36 @@ namespace WpfApp
         Thread receivingThread;
         string ipAvversario;
 
-        CMessaggio messaggio;
 
-        public SchermataGioco(string ipAvversario, double Tentativi, double Tempo, string NomeUtente, string NomeUtenteAvversario)
+        public SchermataGioco(string ipAvversario, double Tentativi, double Tempo, string NomeUtente, string NomeUtenteAvversario, bool turno)
         {
             InitializeComponent();
             WindowState = WindowState.Maximized;//full screen
+            WindowStyle = WindowStyle.None;//no bordo
             CreaSagome();
             CreaPersonaggi();
 
             //set attributi
+            this.ipAvversario = ipAvversario;
             this.Tentativi = Tentativi;
+            this.TentativiMiei = Tentativi;
+            this.TentativiAvversario = Tentativi;
             this.Tempo = Tempo;
             this.NomeUtente = NomeUtente;
             this.NomeUtenteAvversario = NomeUtenteAvversario;
-            LblTentativiMiei.Content = Tentativi;
-            LblTentativiAvversario.Content = Tentativi;
+            this.turno = turno;
+            lblChatt.Content = "Chat con avversario " + NomeUtenteAvversario;
+            LblTentativiMiei.Content = TentativiMiei+"/"+Tentativi;
+            LblTentativiAvversario.Content = TentativiMiei+"/"+Tentativi;
             lblMatch.Content = NomeUtenteAvversario+"   VS   "+NomeUtente;
-
+            if (turno)//Set stato turno
+                lblStatoTurno.Content = "e' il tuo turno";
+            else
+                lblStatoTurno.Content = "è il turno dell'avversario";
             Random rnd = new Random();//classe per il random del personaggio da indovinare
             int numeroRandom = rnd.Next(0, 25);
             ImageRandom.Source = new BitmapImage(new Uri(cond.p.getPersonaggio(numeroRandom).getPercorso()));
-            incognita = cond.p.getPersonaggio(numeroRandom);
+            incognita = cond.p.getPersonaggio(numeroRandom);//persona da indovinare
 
             //thread per ricevere i dati in background => non bloccante
             ThreadStart start = new ThreadStart(Receiver);
@@ -83,82 +93,141 @@ namespace WpfApp
 
         }
         private void Receiver()//protocollo comunicazione
-        {/*
+        {
+            receivingClient = new UdpClient(port);
+
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, port);
-            string ipRicevuto = endPoint.Address.ToString();
-            String daRitornare = "";
             while (true)
             {
                 byte[] data = receivingClient.Receive(ref endPoint);
                 string message = Encoding.ASCII.GetString(data);
-                if (message[0] == 'd')//esegue il secondo peer riceve un messaggio
+                string daRitornare;
+
+                String[] vettElementi = message.Split(';');
+                if (vettElementi[0] == "d")//esegue il secondo peer riceve un messaggio
                 {
-                    //metto in "tutto" il nome del primo peer che mi ha inviato il messaggio, e poi il messaggio
-                    string tutto = String.Format("{0} : {1}", altroClient, message.Substring(2, message.Length - 2)) + "\n";
+                    bool risposta;
                     //Dispatcher per modificare la grafica
                     Dispatcher.BeginInvoke((Action)(() =>
                     {
-                        txt_all.Text += tutto; //vado a visualizzare chi ha mandato il messaggio e il messaggio stesso
-                        if (MessageBox.Show(message[1].ToString(), "Messaggio arrivato", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                        txt_all.Text += NomeUtenteAvversario+":"+vettElementi[1]+"\n"; 
+                        
+                    }));
+                    if (MessageBox.Show(vettElementi[1], "Messaggio arrivato", MessageBoxButton.YesNo) == MessageBoxResult.Yes)//invia la risposta
+                    {
+                        daRitornare = "m;y";
+                        risposta =true;
+                    }
+                    else
+                    {
+                        daRitornare = "m;n";
+                        risposta = false;
+                    }
+                    sendData(ipAvversario, daRitornare);
+                    Dispatcher.BeginInvoke((Action)(() =>//scrivo nella chat la risposta che do
+                    {
+                        if(risposta)
+                        txt_all.Text += NomeUtente+":SI"; 
+                        else
+                        txt_all.Text += NomeUtente + ":NO"; //vado a visualizzare chi ha mandato il messaggio e il messaggio stesso
+                    }));
+                }
+                else if (vettElementi[0] == "m")//se il peer riceve "m" ha la risposta alla domanda e abbassa le pedine
+                {
+                    //Dispatcher per modificare il thread grafico
+                    Dispatcher.BeginInvoke((Action)(() =>
+                    {
+                        txt_all.Text += NomeUtenteAvversario + ":" + vettElementi[1] + "\n";
+                    }));
+                }
+                else if (vettElementi[0] == "f")//aggiorna tabella avversario
+                {
+                    //Dispatcher per modificare il thread grafico
+                    Dispatcher.BeginInvoke((Action)(() =>
+                    {
+                        //deve cambiare la griglia avversaria
+                    }));
+                }
+                else if (vettElementi[0] == "t")//tentativo arrivato
+                {
+                    TentativiAvversario--;
+                    string nomeTentativo = vettElementi[1];
+                    if(incognita.getNome()==nomeTentativo)//peer 2 ha vinto la partita indovinato la persona
+                    {
+                        sendData(ipAvversario, "e;w;");
+                        MessageBox.Show(NomeUtenteAvversario + " hai perso il game avversario l'avversario ha indovinato");
+                        this.Close();//esci dal gioco
+                        break;//finita la partita finisce il thread
+                    }
+                    else//tentativo sbagliato
+                    {
+                        if(TentativiAvversario==0)
                         {
-                            daRitornare = "m;y";
+                            sendData(ipAvversario, "e;t;"); //ho finito i tentativi  mi disconnetto
                         }
                         else
                         {
-                            daRitornare = "m;n";
+                            sendData(ipAvversario, "h;");
                         }
-                        turno = !turno;
-                        sendData(ipAvversario, daRitornare);
-                    }));
-                }
-                else if (message[0] == 'm')//se il peer riceve "m" ha risposta alla domanda
-                {
-                   
+                    }
                     //Dispatcher per modificare il thread grafico
                     Dispatcher.BeginInvoke((Action)(() =>
                     {
-                        this.Hide();
+                        LblTentativiAvversario.Content = TentativiAvversario + "/" + Tentativi;
                     }));
-                    break; //break serve per far terminare il Thread
                 }
-                else if (message[0] == 'f')//personaggi eliminati 
+                else if (vettElementi[0] == "h")//risposta tentativo arrivata
                 {
+                    TentativiMiei--;
+                    
+                    //non c'è bisogno il controllo altrimenti mi sarebbe arrivata la lettera e;t
+                        Dispatcher.BeginInvoke((Action)(() =>
+                        {
+                            LblTentativiMiei.Content = TentativiMiei + "/" + Tentativi;
+                        }));
+                    
+                }
+               
+                else if (vettElementi[0] == "e")//arrendersi
+                {
+                    string motivazione = vettElementi[1];
                     //Dispatcher per modificare il thread grafico
                     Dispatcher.BeginInvoke((Action)(() =>
                     {
-                        this.Hide();
+                        if (vettElementi[1] == "a")
+                            MessageBox.Show("avversario si è disconnesso");
+                        else if(vettElementi[1]=="t")
+                        {
+                            MessageBox.Show("avversario ha finito i tentativi");
+                        }
+                        else if(vettElementi[1]=="w")
+                        {
+
+                        }
                     }));
                     break; //break serve per far terminare il Thread
                 }
-                else if (message[0] == 't')//tentativo
+                if(!turno)
                 {
-                    Tentativi--;
-                    //Dispatcher per modificare il thread grafico
                     Dispatcher.BeginInvoke((Action)(() =>
                     {
-                        this.Hide();
-                    }));
-                    break; //break serve per far terminare il Thread
+                        btnInvia.IsEnabled = false;
+                        btnRound.IsEnabled = false;
+                        btnTentativo.IsEnabled = false;
+                    }));        
                 }
-                else if (message[0] == 'e')//arrendersi
+                else
                 {
-                    Tentativi--;
-                    //Dispatcher per modificare il thread grafico
                     Dispatcher.BeginInvoke((Action)(() =>
                     {
-                        this.Hide();
+                        btnInvia.IsEnabled = true;
+                        btnRound.IsEnabled = true;
+                        btnTentativo.IsEnabled = true;
                     }));
-                    break; //break serve per far terminare il Thread
                 }
-            }*/
+            }
         }
-        private void sendData(string ip, string messaggio)//per inviare pacchetti
-        {
-            sendingClient = new UdpClient(ip, port);
-            string toSend = messaggio;
-            byte[] data = Encoding.ASCII.GetBytes(toSend);
-            sendingClient.Send(data, data.Length);
-        }
+       
         public void CreaSagome()//sagome opponent
         {
 
@@ -248,12 +317,12 @@ namespace WpfApp
             var brush = new ImageBrush();
             for (int i = 0; i < nIncognite; i++)
             {
-                if (cond.p.getPersonaggio(i).nome == btn.Name)
+                if (cond.p.getPersonaggio(i).nome == btn.Name && cond.p.getPersonaggio(i).isEliminato()==false)//permette di alzare e abbassare la pedina solo se non è eliminato
                 {
                     if (cond.p.getPersonaggio(i).isAttivo() == true)
                     {
                         cond.p.getPersonaggio(i).setAttivo(false);
-                        brush.ImageSource = new BitmapImage(new Uri("Immagini\\sagomaO.jpg", UriKind.Relative));
+                        brush.ImageSource = new BitmapImage(new Uri("Immagini\\sagomaX.jpg", UriKind.Relative));
                         btn.Background = brush;
                     }
                     else
@@ -268,8 +337,57 @@ namespace WpfApp
         }
         private void BtnInvia_Click(object sender, RoutedEventArgs e)
         {
-            txt_all.Text += NomeUtente + ": " + txtMessaggio.Text + "\n";//visualizzo il messaggio
-            sendData(ipAvversario, String.Format("m;{0}", txtMessaggio.Text));//invio i dati del messaggio all'altro peer
+            if (turno)
+            {
+                txt_all.Text += NomeUtente + ": " + txtMessaggio.Text + "\n";//visualizzo il messaggio
+                sendData(ipAvversario, "m;" + txtMessaggio.Text);//invio i dati del messaggio all'altro peer
+            }
+        }
+
+        private void BtnRound_Click(object sender, RoutedEventArgs e)
+        {
+            turno =! turno;//cambia turno
+            string cordinate=getCordinateDaInviare();
+            sendData(ipAvversario, "f;" + cordinate);//invio i dati del messaggio all'altro peer
+
+        }
+        private string getCordinateDaInviare()//metodo per mettere la sagoma permanente e sapere le cordinate da inviare
+        {
+            string cordinatedaInviare = "";
+            var brush = new ImageBrush();//per mettere la sagoma permanente
+            for (int i = 0; i < nIncognite; i++)
+            {
+                    if (cond.p.getPersonaggio(i).isAttivo() == true && cond.p.getPersonaggio(i).isEliminato()==false)//invia le cordinate di tutte le pedine abbassate ma non eliminate definitivamente
+                    {
+                        cordinatedaInviare += i + ";";
+                        cond.p.getPersonaggio(i).setEliminato(true);
+                        brush.ImageSource = new BitmapImage(new Uri("Immagini\\sagomaO.jpg", UriKind.Relative));
+                        myButtons2.ElementAt(i).Background = brush;
+                    }                  
+            }
+            return cordinatedaInviare;
+        }
+        private void BtnTentativo_Click(object sender, RoutedEventArgs e)
+        {
+            turno = !turno;
+            sendData(ipAvversario, "t;"+txtMessaggio.Text);
+        }
+
+        private void sendData(string ip, string messaggio)//per inviare pacchetti
+        {
+            sendingClient = new UdpClient(ip, port);
+            string toSend = messaggio;
+            byte[] data = Encoding.ASCII.GetBytes(toSend);
+            sendingClient.Send(data, data.Length);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Sei sicuro? \n perderai la partita a tavolino", "Esci", MessageBoxButton.YesNo) == MessageBoxResult.Yes)//invia la risposta
+            {
+                sendData(ipAvversario, "e;a");
+                this.Close();
+            }
         }
     }
 }

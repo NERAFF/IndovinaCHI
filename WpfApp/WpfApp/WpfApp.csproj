@@ -55,7 +55,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CMessaggio.cs" />
     <Compile Include="Condivisa.cs" />
     <Compile Include="Impostazioni.xaml.cs">
       <DependentUpon>Impostazioni.xaml</DependentUpon>
@@ -136,10 +135,16 @@
     <Resource Include="play.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="settings.png" />
+    <Resource Include="exit.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="exit.png" />
+    <Resource Include="round.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="quit.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="try.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
