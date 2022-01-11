@@ -34,8 +34,9 @@ namespace WpfApp
         string nomeUtente;
         string nomeUtenteAVV = "";
 
-        CMessaggio mess;//classe per invio e ricezione dei pacchetti
-
+        //CMessaggio mess;//classe per invio e ricezione dei pacchetti
+        UdpClient recevingClient;
+        UdpClient sendingClient;
         Thread receivingThread;//thread di ricezione
         ThreadStart start;
 
@@ -49,7 +50,6 @@ namespace WpfApp
         {
             InitializeComponent();
             setMenu();
-            mess = new CMessaggio();//porta dove
             //thread per ricevere i dati in background => non bloccante
             start = new ThreadStart(Receiver);
             receivingThread = new Thread(start);
@@ -60,7 +60,7 @@ namespace WpfApp
             lblBentornato.Content = "Bentornato " + nomeUtente;
 
         }
-        public Menu(string nomeUtente, double Tentativi, double Tempo, string ipAvversario, CMessaggio mess) {
+        public Menu(string nomeUtente, double Tentativi, double Tempo, string ipAvversario) {
             InitializeComponent();
             setMenu();
             //receivingClient = new UdpClient(port);
@@ -75,7 +75,6 @@ namespace WpfApp
             this.Tentativi = Tentativi;
             this.Tempo = Tempo;
             this.ipAvversario = ipAvversario;
-            this.mess=mess;
             impostazioni = true;
             lblBentornato.Content = "Bentornato " + nomeUtente;
         }
@@ -97,65 +96,56 @@ namespace WpfApp
 
         private void Receiver()//thread ricezione 
         {
-            if(Mioturno)
-            {
-            }
+            recevingClient = new UdpClient(2009);//porta dove
+            IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, 2009);
             while (true)
             {
-                mess.ricevi();
-                String[] vettElementi = mess.getMessaggio().Split(';');
+                //classe ricevi non va bene è bloccante
+                //mess.ricevi();
+                byte[] test = recevingClient.Receive(ref endPoint);
+                ipAvversario = endPoint.Address.ToString();
+                string message = Encoding.ASCII.GetString(test);
+                String[] vettElementi = message.Split(';');
                 if (vettElementi[0] == "c")//richiesta connesione 
                 {
                     //il secondo peer riceve C e il nome utente di chi vuole connettersi
                     if (MessageBox.Show("Vuoi stabilire la connessione?", "Richiesta di connessione", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
+                        MessageBox.Show(message);
                         nomeUtenteAVV = vettElementi[1];
                         Tempo = Double.Parse(vettElementi[2]);
                         Tentativi = Double.Parse(vettElementi[3]);
 
 
-                        string daRitornare = "y;" + nomeUtente; //Il secondo peer invia y = yes e il suo Username
+                        string daRitornare = "y;" + nomeUtente+";"; //Il secondo peer invia y = yes e il suo Username
 
                         connetendosi = true;
-                        mess.setConnessione();
-                        mess.invia(daRitornare);//invia il y;mioUsername al primo peer
+                        sendData(ipAvversario, daRitornare);
 
-                        MessageBox.Show("voglio giocare "+mess.getMessaggio());
                     }
                     else
                     {
                         //se il secondo peer rifiuta la connessione manda una n = no
-                        mess.invia("n;");
+                        sendData(ipAvversario,"n;");
                     }
                 }
                 else if (vettElementi[0] == "y")//sia la seconda che la terza fase
                 {
 
-                    if (connetendosi)//riceve Y;nickname
+                    if (!connetendosi)//riceve Y;nickname
                     {
                         nomeUtenteAVV = vettElementi[1];
-                        mess.invia("y;");
-                        Dispatcher.BeginInvoke((Action)(() =>//connessione stabilita-->si va alla schermata di gioco
-                        {
-                            SchermataGioco m = new SchermataGioco(ipAvversario, Tentativi, Tempo, nomeUtente, nomeUtenteAVV);
-                            m.Show();
-                            receivingThread.Abort();
-                            this.Close();
-                        }));
-                        break; //il thread smette di creare mess
+                        sendData(ipAvversario, "y;");   
                     }
-                    else//altrimenti è arrivata la conferma (terza fase) cioè arriva y; e si puo giocare
+                    Dispatcher.BeginInvoke((Action)(() =>//connessione stabilita-->si va alla schermata di gioco
                     {
-                        Dispatcher.BeginInvoke((Action)(() =>//connessione stabilita--> si va alla schermatta di gioco
-                        {
-                            SchermataGioco m = new SchermataGioco(ipAvversario, Tentativi, Tempo, nomeUtente, nomeUtenteAVV);
-                            m.Show();
-                            receivingThread.Abort();
-                            this.Close();
-                        }));
-                        break; //il thread smette di creare mess
-
-                    }
+                        SchermataGioco m = new SchermataGioco(ipAvversario, Tentativi, Tempo, nomeUtente, nomeUtenteAVV);
+                        m.Show();
+                        sendingClient.Close();
+                        recevingClient.Close();
+                        this.Close();
+                    }));
+                    break; //il thread smette di creare mess
                 }
                 else//altri messaggi
                 {
@@ -167,13 +157,10 @@ namespace WpfApp
         {
             if (impostazioni)
             {
-                mess.setIpavversario(IPAddress.Parse(ipAvversario));
                 //qui invia richiesta connessone 
-                string toSend = "c;" +nomeUtente+";"+Tempo+";"+Tentativi; //Primo peer vuole instaurare la connessione
-
+                string toSend = "c;" + nomeUtente + ";" + Tempo + ";" + Tentativi + ";";//Primo peer vuole instaurare la connessione
+                sendData(ipAvversario, toSend);
                 connetendosi = true;//si sta cercando di connettersi
-                mess.setConnessione();
-                mess.invia(toSend);
                 MessageBox.Show("Connessione...");
             }
             else
@@ -184,11 +171,12 @@ namespace WpfApp
 
         private void BtnSetting_Click(object sender, RoutedEventArgs e)
         {
-
-            Impostazioni finestra = new Impostazioni(nomeUtente, mess);
+            receivingThread.Abort();//termina il thread
+            recevingClient.Close();
+            Impostazioni finestra = new Impostazioni(nomeUtente);
             finestra.Show();
             this.Hide();
-            receivingThread.Abort();//termina il thread
+            
 
         }
 
@@ -199,6 +187,13 @@ namespace WpfApp
                 this.Close();
                 //MessageBox.Show("CONNESSIONE","inserisci indirizzo ip dell'avversario",MessageBoxOptions.)
             }
+        }
+        public void sendData(string ip, string messaggio)
+        {
+            sendingClient = new UdpClient(ip, 2009);
+            string toSend = messaggio;
+            byte[] data = Encoding.ASCII.GetBytes(toSend);
+            sendingClient.Send(data, data.Length);
         }
     }
 }

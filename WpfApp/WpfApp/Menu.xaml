@@ -12,9 +12,15 @@
             <ColumnDefinition Width="803*"/>
             <ColumnDefinition Width="326*"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="btnInizio" Content="" HorizontalAlignment="Left" Margin="612.2,138,0,0" VerticalAlignment="Top" Width="329" Height="94" Grid.Column="1" Background="{x:Null}" BorderBrush="#009481AB" Click="BtnInizio_Click" Grid.ColumnSpan="2"/>
-        <Button x:Name="btnEsci" Content="" HorizontalAlignment="Left" Margin="615.2,430,0,0" VerticalAlignment="Top" Width="330" Height="93" Grid.Column="1" Background="{x:Null}" BorderBrush="#00707070" Grid.ColumnSpan="2" Click="BtnEsci_Click"/>
-        <Button x:Name="btnSetting" Content="" HorizontalAlignment="Left" Margin="617.2,272,0,0" VerticalAlignment="Top" Width="329" Height="94" Grid.Column="1" Background="{x:Null}" BorderBrush="#00707070" Click="BtnSetting_Click" Grid.ColumnSpan="2"/>
+        <Button x:Name="btnInizio" HorizontalAlignment="Left" Margin="612.2,138,0,0" VerticalAlignment="Top" Width="329" Height="94" Grid.Column="1" Background="{x:Null}" BorderBrush="#009481AB" Click="BtnInizio_Click" Grid.ColumnSpan="2">
+            <Image Source="play.png" Stretch="Fill" Width="329" Height="94"/>
+        </Button>
+        <Button x:Name="btnEsci" HorizontalAlignment="Left" Margin="615.2,430,0,0" VerticalAlignment="Top" Width="330" Height="93" Grid.Column="1" Background="{x:Null}" BorderBrush="#00707070" Grid.ColumnSpan="2" Click="BtnEsci_Click">
+            <Image Source="exit.png" Stretch="Fill" Width="330" Height="93"/>
+        </Button>
+        <Button x:Name="btnSetting" HorizontalAlignment="Left" Margin="612.2,276,0,0" VerticalAlignment="Top" Width="329" Height="94" Grid.Column="1" Background="{x:Null}" BorderBrush="#00707070" Click="BtnSetting_Click" Grid.ColumnSpan="2">
+            <Image Source="settings.png" Stretch="Fill"  Width="329" Height="94"/>
+        </Button>
         <Image Margin="101,226,428,194.6" Source="icona.png" Stretch="Fill" Grid.ColumnSpan="2" RenderTransformOrigin="0.488,0.715"/>
         <Label x:Name="lblBentornato" Content="****************" Grid.Column="1" HorizontalAlignment="Left" Margin="0.2,14,0,0" VerticalAlignment="Top" Height="98" Width="710" Background="{x:Null}" FontSize="52" FontWeight="Bold"/>
 

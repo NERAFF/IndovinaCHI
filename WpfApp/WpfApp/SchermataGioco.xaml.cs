@@ -53,6 +53,7 @@ namespace WpfApp
         string ipAvversario;
 
         CMessaggio messaggio;
+
         public SchermataGioco(string ipAvversario, double Tentativi, double Tempo, string NomeUtente, string NomeUtenteAvversario)
         {
             InitializeComponent();
@@ -67,7 +68,7 @@ namespace WpfApp
             this.NomeUtenteAvversario = NomeUtenteAvversario;
             LblTentativiMiei.Content = Tentativi;
             LblTentativiAvversario.Content = Tentativi;
-            LblMio.Content = NomeUtente;
+            lblMatch.Content = NomeUtenteAvversario+"   VS   "+NomeUtente;
 
             Random rnd = new Random();//classe per il random del personaggio da indovinare
             int numeroRandom = rnd.Next(0, 25);
@@ -82,7 +83,7 @@ namespace WpfApp
 
         }
         private void Receiver()//protocollo comunicazione
-        {
+        {/*
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, port);
             string ipRicevuto = endPoint.Address.ToString();
             String daRitornare = "";
@@ -149,7 +150,7 @@ namespace WpfApp
                     }));
                     break; //break serve per far terminare il Thread
                 }
-            }
+            }*/
         }
         private void sendData(string ip, string messaggio)//per inviare pacchetti
         {
